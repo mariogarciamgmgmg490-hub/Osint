@@ -1,0 +1,72 @@
+@media (max-width: 900px) {
+  .login,
+  .grid2,
+  .grid4 {
+    grid-template-columns: 1fr;
+  }
+
+  .login {
+    overflow: visible;
+  }
+
+  .hero {
+    display: block;
+    min-height: auto;
+    padding: 26px;
+  }
+
+  .heroContent {
+    gap: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(30px, 7vw, 42px);
+  }
+}
+
+@media (max-width: 640px) {
+  .login {
+    display: grid;
+    gap: 0;
+  }
+
+  .hero {
+    order: 1;
+    padding: 18px;
+    border-bottom: 1px solid rgba(34, 211, 238, .16);
+  }
+
+  .login > .p {
+    order: 2;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    line-height: 1.08;
+    margin: 18px 0 10px;
+  }
+
+  .hero .muted {
+    font-size: 14px;
+  }
+
+  .hero .grid2 {
+    gap: 10px;
+  }
+
+  .statBox {
+    border-radius: 14px;
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero {
+    padding: 14px;
+  }
+
+  .hero h1 {
+    font-size: 25px;
+  }
+}
