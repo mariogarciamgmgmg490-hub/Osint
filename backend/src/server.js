@@ -2,7 +2,9 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+
 import { connectDB } from './config/db.js';
+
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
@@ -15,12 +17,14 @@ const allowedOrigins = [
   'http://127.0.0.1:5173'
 ]
   .filter(Boolean)
-  .map((origin) => origin.trim().replace(/\/$/, ''));
+  .map(origin => origin.trim().replace(/\/$/, ''));
 
+// CORS
 app.use(cors({
   origin(origin, callback) {
 
-    // Permitir requests sin origin (Postman, mobile apps, etc)
+    // Permitir requests sin origin
+    // (Postman, apps móviles, etc)
     if (!origin) {
       return callback(null, true);
     }
@@ -31,16 +35,16 @@ app.use(cors({
       return callback(null, true);
     }
 
-    return callback(new Error(`Origen no permitido por CORS: ${origin}`));
+    return callback(
+      new Error(`Origen no permitido por CORS: ${origin}`)
+    );
   },
 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
 
-// Manejar preflight OPTIONS
-app.options('*', cors());
-
+// Middlewares
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -53,18 +57,24 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
+// Puerto
 const PORT = process.env.PORT || 4000;
 
-// Conectar DB e iniciar servidor
+// Iniciar servidor
 connectDB()
   .then(() => {
+
     console.log('MongoDB conectado');
 
     app.listen(PORT, () => {
-      console.log(`API en puerto ${PORT}`);
+      console.log(`API corriendo en puerto ${PORT}`);
     });
+
   })
   .catch((error) => {
-    console.error('No se pudo iniciar la API:', error);
+
+    console.error('Error iniciando servidor:', error);
+
     process.exit(1);
+
   });
